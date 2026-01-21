@@ -7,6 +7,7 @@ int appRandInt(int min, int max) {
 
 void default_callback(APP_Widget* widget) {}
 
+
 APP_Level createLevel(APP_Structure* app, char* name, SDL_FRect* viewport) {
   APP_Level levelToReturn = {.name = name, .priority = 1};
   if (viewport)
@@ -81,7 +82,7 @@ APP_Widget createImageButtonWidget(APP_Structure* app, char* name, char* text,
   widgetToReturn.relative = relative;
   widgetToReturn.image_path = image_path;
   widgetToReturn.hover_image_path = hover_image_path;
-  if (!font) widgetToReturn.font = app->font[0];
+  if (!font) widgetToReturn.font = app->fonts[0];
   widgetToReturn.font_size = font_size;
   if (text_color) widgetToReturn.text_color = *text_color;
 
@@ -124,13 +125,13 @@ APP_Widget createImageButtonWidget(APP_Structure* app, char* name, char* text,
   return widgetToReturn;
 }
 
-APP_Area createArea(APP_Structure* app, int color_index) {
+APP_Area createArea(APP_Structure* app, int image_index) {
   APP_Area areaToReturn = {
-		.rendered = (SDL_Rect){.x=0,.y=0,.w=0,.h=0},
-		.logical = (SDL_FRect){.x=0.0, .y=0.0, .w=0.0, .h=0.0},
-		.color_index=color_index,
-      .image_texture = app->colors[color_index],
-      .image_hover_texture = app->colors[color_index],
+      .rendered = (SDL_Rect){.x = 0, .y = 0, .w = 0, .h = 0},
+      .logical = (SDL_FRect){.x = 0.0, .y = 0.0, .w = 0.0, .h = 0.0},
+      .image_index = image_index,
+      .image_texture = app->images[image_index],
+      .image_hover_texture = app->images[image_index],
   };
   areaToReturn.animations = array(APP_Animation, app->allocator);
   return areaToReturn;
@@ -219,14 +220,48 @@ void addWidgetToWidgetR(APP_Widget* tobase, APP_Widget widget, double x,
   array_append(tobase->container, widget);
 }
 
-void addAreaToWidgetR(APP_Widget *tobase, APP_Area area, double x, double y, double width, double height){
-	area.logical.x = x;
-	area.logical.y = y;
-	area.logical.w = width;
-	area.logical.h = height;
-	if (tobase->area_container != NULL)
-	array_append(tobase->area_container, area);
+void addAreaToWidgetR(APP_Widget* tobase, APP_Area area, double x, double y,
+                      double width, double height) {
+  area.logical.x = x;
+  area.logical.y = y;
+  area.logical.w = width;
+  area.logical.h = height;
+  if (tobase->area_container != NULL)
+    array_append(tobase->area_container, area);
+  else {
+    printf(
+        "Area cannot be added to widget because widget's area container is "
+        "NULL!\n");
+  }
+}
+
+
+APP_Structure createTESTO(void) {
+  Allocator* a = malloc(sizeof(Allocator));
+  a->alloc = my_alloc;
+  a->free = my_free;
+  a->context = 0;
+  APP_Structure appToReturn = {
+      .window = NULL, .renderer = NULL, .allocator = a, .running = 1};
+
+  appToReturn.levels = array(APP_Level, a);
+  if (!appToReturn.levels) {
+    fprintf(stderr, "Error creating TESTO, error with pages\n");
+  }
 	else {
-		printf("Area cannot be added to widget because widget's area container is NULL!\n");
+		APP_Level start_page = createLevel(&appToReturn, "Start Page", NULL);
+		addLevelToApp(&appToReturn, start_page);
 	}
+
+  appToReturn.images = array(SDL_Texture*, a);
+  if (!appToReturn.images) {
+    fprintf(stderr, "Error creating TESTO, error with images\n");
+  }
+
+  appToReturn.fonts = array(TTF_Font*, a);
+  if (!appToReturn.fonts) {
+    fprintf(stderr, "Error creating TESTO, error with fonts\n");
+  }
+
+  return appToReturn;
 }

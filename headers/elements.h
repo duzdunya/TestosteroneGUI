@@ -74,15 +74,13 @@ typedef struct {
   SDL_Rect past_rendered;
   SDL_FRect logical;
   SDL_FRect past_logical;
-  int color_index;
+  int image_index;
   APP_Animation* animations;
-  SDL_Texture *image_texture;
-  SDL_Texture *image_hover_texture;
+  SDL_Texture* image_texture;
+  SDL_Texture* image_hover_texture;
   _Bool hovered;
   _Bool not_active;
 } APP_Area;
-
-
 
 // widget
 typedef struct APP_Widget {
@@ -169,17 +167,16 @@ typedef struct {
   int window_h;
   int w_gap;
   int h_gap;
-  int currentLevel;
 
   // arrays
-  TTF_Font* font[5];  // array
+  SDL_Texture** images;
+  TTF_Font** fonts;   // array
   APP_Level* levels;  // dynamic array
-
-  // test purpose
-  SDL_Texture** textureMedia;
-  SDL_Texture* colors[5];
-  int textureIndex[30];
+                      //
+  int currentLevel;
 } APP_Structure;
+
+APP_Structure createTESTO(void);
 
 APP_Level createLevel(APP_Structure* app, char* name, SDL_FRect* viewport);
 
@@ -194,7 +191,7 @@ APP_Widget createImageButtonWidget(APP_Structure* app, char* name, char* text,
                                    TTF_Font* font, int font_size,
                                    SDL_Color* text_color);
 
-APP_Area createArea(APP_Structure* app,int color_index);
+APP_Area createArea(APP_Structure* app, int image_index);
 
 APP_Animation createPositionAnimation(APP_Structure* app, char* name,
                                       int duration, int start_delay,
@@ -206,8 +203,6 @@ APP_Animation createSizeAnimation(APP_Structure* app, char* name, int duration,
 
 // APP_Animation createSizeAnimation(APP_Structure *);
 void default_callback(APP_Widget*);
-void toggleAnimation(APP_Animation*);
-
 void addAnimationToWidget(APP_Widget*, APP_Animation*);
 void addAnimationToArea(APP_Area*, APP_Animation*);
 void addLevelToApp(APP_Structure*, APP_Level);
@@ -220,7 +215,8 @@ void addWidgetToWidget(APP_Widget* tobase, APP_Widget widget, int x, int y,
 void addWidgetToWidgetR(APP_Widget* tobase, APP_Widget widget, double x,
                         double y, double width, double height);
 
-void addAreaToWidgetR(APP_Widget* tobase, APP_Area area, double x, double y, double width, double height);
+void addAreaToWidgetR(APP_Widget* tobase, APP_Area area, double x, double y,
+                      double width, double height);
 int appRandInt(int min, int max);
 
 #endif
