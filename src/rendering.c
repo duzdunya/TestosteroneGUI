@@ -6,7 +6,7 @@
 
 void renderAppArea(APP_Structure* app, APP_Level* level, APP_Area* area) {
    SDL_RenderSetViewport(app->renderer, &level->viewport);
-   SDL_RenderCopy(app->renderer, app->colors[0], NULL, &area->rendered);
+   SDL_RenderCopy(app->renderer, area->image_texture, NULL, &area->rendered);
 }
 
 void renderWidget(APP_Structure* app, APP_Level* level, APP_Widget* widget) {
