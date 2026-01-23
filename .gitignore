@@ -1,3 +1,7 @@
+src/levels.c
+src/game_level.c
+headers/levels.h
+headers/game_level.h
 run
 *.ttf
 
