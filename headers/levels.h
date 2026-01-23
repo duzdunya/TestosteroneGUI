@@ -9,8 +9,8 @@
 #include "game_level.h"
 #include "colors.h"
 
-_Bool init_menu_level(APP_Structure *app);
-_Bool init_settings_level(APP_Structure *app);
-_Bool init_all_levels(APP_Structure *app);
+_Bool init_menu_level(TESTO_Struct *app);
+_Bool init_settings_level(TESTO_Struct *app);
+_Bool init_all_levels(TESTO_Struct *app);
 
 #endif 

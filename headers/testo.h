@@ -11,16 +11,15 @@
 
 #include "elements.h"
 #include "calculations.h"
-#include "levels.h"
 #include "rendering.h"
 #include "easings.h"
 #include "animations.h"
 #include "initial.h"
 #include "testo_events.h"
 
-_Bool runTESTO(APP_Structure*);
-_Bool _clearTESTO_widgets(APP_Structure*);
-_Bool _clearTESTO_media(APP_Structure*);
-_Bool clearTESTO(APP_Structure*);
+_Bool runTESTO(TESTO_Struct*);
+_Bool _clearTESTO_widgets(TESTO_Struct*);
+_Bool _clearTESTO_media(TESTO_Struct*);
+_Bool clearTESTO(TESTO_Struct*);
 
 #endif

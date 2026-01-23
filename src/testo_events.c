@@ -1,13 +1,13 @@
 #include "testo_events.h"
 
-void handleEvents(APP_Structure* app) {
+void handleEvents(TESTO_Struct* app) {
   switch (app->event.type) {
     case SDL_QUIT:
       app->running = 0;
       break;
     case SDL_WINDOWEVENT:
       SDL_GetWindowSize(app->window, &app->window_w, &app->window_h);
-      doLevelCalculations(app);
+      doPageCalculations(app);
       doWidgetCalculations(app);  // checked
       break;
     case SDL_MOUSEMOTION:

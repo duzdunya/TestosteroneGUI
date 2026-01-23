@@ -3,7 +3,4 @@
 #include "testo.h"
 
 
-void handleEvents(APP_Structure *app);
-
-
 #endif

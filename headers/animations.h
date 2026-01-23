@@ -1,9 +1,9 @@
-#ifndef APP_ANIMATIONS_H
-#define APP_ANIMATIONS_H
+#ifndef TESTO_ANIMATIONS_H
+#define TESTO_ANIMATIONS_H
 #include "elements.h"
 
-void toggleAnimation(APP_Animation *);
-void stopAnimation(APP_Animation*);
-void continueAnimation(APP_Animation*);
+void toggleAnimation(TESTO_Animation *);
+void stopAnimation(TESTO_Animation*);
+void continueAnimation(TESTO_Animation*);
 
 #endif

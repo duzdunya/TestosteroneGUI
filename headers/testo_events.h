@@ -5,6 +5,6 @@
 #include "calculations.h"
 #include "elements.h"
 
-void handleEvents(APP_Structure* app);
+void handleEvents(TESTO_Struct* app);
 
 #endif

@@ -1,8 +1,8 @@
 #include "initial.h"
 
-#include <SDL2/SDL_ttf.h>
-
-int pleaseAddFont(APP_Structure* app, char* font_path) {
+// returns index of added font
+//-1 on error
+int pleaseAddFont(TESTO_Struct* app, char* font_path) {
   TTF_Font* loadedFont = TTF_OpenFont(font_path, 32);
   if (loadedFont == NULL) {
     fprintf(stderr, "Error loading font %s\n", font_path);
@@ -15,7 +15,7 @@ int pleaseAddFont(APP_Structure* app, char* font_path) {
 }
 // returns index of added image
 //-1 on error
-int pleaseAddImage(APP_Structure* app, char* image_path) {
+int pleaseAddImage(TESTO_Struct* app, char* image_path) {
   SDL_Texture* loadedImg = IMG_LoadTexture(app->renderer, image_path);
   if (loadedImg == NULL) {
     fprintf(stderr, "Error loading image %s\n", image_path);
@@ -28,16 +28,16 @@ int pleaseAddImage(APP_Structure* app, char* image_path) {
 }
 
 // Initialize the app
-_Bool initTESTO(APP_Structure* app) {
-  // init everything in SDL
+_Bool initTESTO(TESTO_Struct* app) {
+	//init SDL
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "Error initializing SDL %s\n", SDL_GetError());
     return 1;
   }
 
   // create sdl window
-  app->window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_X, WINDOW_Y, WINDOW_W,
-                                 WINDOW_H, SDL_WINDOW_RESIZABLE);
+  app->window = SDL_CreateWindow(app->title, WINDOW_X, WINDOW_Y, app->width,
+                                 app->height, SDL_WINDOW_RESIZABLE);
   if (app->window == NULL) {
     fprintf(stderr, "Error initializing window %s\n", SDL_GetError());
     return 1;

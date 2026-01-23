@@ -1,6 +1,6 @@
 #include "animations.h"
 
-void toggleAnimation(APP_Animation *animation) {
+void toggleAnimation(TESTO_Animation *animation) {
 	if (animation->ended){
 		animation->reverse = true;
 		animation->ended = false;
@@ -12,10 +12,10 @@ void toggleAnimation(APP_Animation *animation) {
 }
 
 
-void stopAnimation(APP_Animation* animation){
+void stopAnimation(TESTO_Animation* animation){
 	animation->active = 0;
 }
 
-void continueAnimation(APP_Animation* animation){
+void continueAnimation(TESTO_Animation* animation){
 	animation->active = 1;
 }
