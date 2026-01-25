@@ -1,1 +1,4 @@
-<img src="https://github.com/user-attachments/assets/a650725e-2984-46d1-bc39-872ae55b3ccf" width=500>
+# TestosteroneGUI, make design sigma again
+<p>TestosteroneGUI is graphical user interface written in pure C and SDL.</p>
+
+<img src="https://github.com/user-attachments/assets/0b4c5ef8-0648-43dd-aa8b-43bdcbc01fd2" width=500>
