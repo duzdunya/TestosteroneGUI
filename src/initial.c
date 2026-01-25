@@ -36,7 +36,7 @@ _Bool initTESTO(TESTO_Struct* app) {
   }
 
   // create sdl window
-  app->window = SDL_CreateWindow(app->title, WINDOW_X, WINDOW_Y, app->width,
+  app->window = SDL_CreateWindow(app->title, 0, 0, app->width,
                                  app->height, SDL_WINDOW_RESIZABLE);
   if (app->window == NULL) {
     fprintf(stderr, "Error initializing window %s\n", SDL_GetError());
@@ -61,6 +61,8 @@ _Bool initTESTO(TESTO_Struct* app) {
   if (TTF_Init() != 0) {
     fprintf(stderr, "Error initializing TTF %s\n", TTF_GetError());
   } else {
+		TTF_Font* fontToAdd = TTF_OpenFont("Jersey15-Regular.ttf",32);
+		array_append(app->fonts, fontToAdd);
       }
 
    printf("TESTO successfully initialized\n");

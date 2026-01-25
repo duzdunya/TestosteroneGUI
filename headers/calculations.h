@@ -2,15 +2,20 @@
 #define CALCULATIONS_H
 #include <stdio.h>
 #include <stdlib.h>
-#include "elements.h"
-#include "dstructures.h"
+
 #include "align.h"
+#include "dstructures.h"
+#include "elements.h"
 
 _Bool isIn(int cursorx, int cursory, int x, int y, int width, int height);
-void doPageCalculations(TESTO_Struct*);
-void doHoverCalculations(TESTO_Struct*, SDL_Event*);
-void doClickCalculations(TESTO_Struct*, SDL_Event*);
-void doWidgetCalculations(TESTO_Struct*);
-void doWidgetAnimationCalculations(TESTO_Struct*);
+
+void doPageCalculation(TESTO_Struct* app, TESTO_Page* page);
+void doWidgetHoverCalculation(TESTO_Widget* widget, int cursor_x,
+                              int cursor_y);
+void doWidgetClickCalculation(TESTO_Widget* widget, int cursor_x,
+                              int cursor_y);
+void doWidgetAnimationCalculation(TESTO_Widget* widget,
+                                  TESTO_Animation* animation);
+void doWidgetCalculation(TESTO_Widget* widget);
 
 #endif

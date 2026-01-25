@@ -2,14 +2,15 @@
 #define ELEMENTS_H
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include <string.h>
 
+#include "animations.h"
 #include "colors.h"
 #include "dstructures.h"
 #include "easings.h"
-#include "animations.h"
 
 enum TESTO_WIDGET_TYPES {
   TESTO_WIDGET,
@@ -29,10 +30,10 @@ typedef struct {
 } APP_Border;
 
 typedef struct {
+  SDL_Rect actual_rendered;
   SDL_Rect rendered;
-  SDL_Rect past_rendered;
+  SDL_FRect actual_logical;
   SDL_FRect logical;
-  SDL_FRect past_logical;
   int image_index;
   TESTO_Animation* animations;
   SDL_Texture* image_texture;
@@ -56,20 +57,20 @@ typedef struct TESTO_Widget {
   int z_index;
 
   // rendered widget
+  SDL_Rect actual_rendered;
   SDL_Rect rendered;
-  SDL_Rect past_rendered;
 
   // logical widget
+  SDL_FRect actual_logical;
   SDL_FRect logical;
-  SDL_FRect past_logical;
 
   // rendered text
+  SDL_Rect actual_text_rendered;
   SDL_Rect text_rendered;
-  SDL_Rect text_past_rendered;
 
   // logical text
+  SDL_FRect actual_text_logical;
   SDL_FRect text_logical;
-  SDL_FRect text_past_logical;
 
   APP_Border border;
   SDL_Color fg_color;
@@ -121,10 +122,14 @@ typedef struct {
   int width;
   int height;
   char* title;
+  _Bool clicked;
+  int cursor_x;
+  int cursor_y;
+  int click_cursor_x;
+  int click_cursor_y;
 
   // attributes
   _Bool running;
-  _Bool check_calc;
   Uint32 pastTick;
   int window_w;
   int window_h;

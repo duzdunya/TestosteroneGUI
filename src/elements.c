@@ -39,8 +39,8 @@ TESTO_Widget _createBaseWidget(TESTO_Struct* app) {
 
   SDL_FRect baseFloats = {.x = 0.0, .y = 0.0, .w = 0.1, .h = 0.1};
   SDL_Rect baseNumbers = {.x = 0, .y = 0, .w = 100, .h = 100};
-  widgetToReturn.rendered = baseNumbers;
-  widgetToReturn.logical = baseFloats;
+  widgetToReturn.actual_rendered = baseNumbers;
+  widgetToReturn.actual_logical = baseFloats;
   widgetToReturn.on_click = default_callback;
   widgetToReturn.animations = array(TESTO_Animation, app->allocator);
   widgetToReturn.area_container = NULL;
@@ -167,46 +167,46 @@ void pleaseAddPageToApp(TESTO_Struct* toApp, TESTO_Page page) {
 
 void pleaseAddWidgetToPage(TESTO_Page* toPage, TESTO_Widget widget, int x,
                            int y, int width, int height) {
-  widget.rendered.x = x;
-  widget.rendered.y = y;
-  widget.rendered.w = width;
-  widget.rendered.h = height;
+  widget.actual_rendered.x = x;
+  widget.actual_rendered.y = y;
+  widget.actual_rendered.w = width;
+  widget.actual_rendered.h = height;
   array_append(toPage->container, widget);
 }
 
 void pleaseAddWidgetToPageR(TESTO_Page* toPage, TESTO_Widget widget, double x,
                             double y, double width, double height) {
-  widget.logical.x = x;
-  widget.logical.y = y;
-  widget.logical.w = width;
-  widget.logical.h = height;
+  widget.actual_logical.x = x;
+  widget.actual_logical.y = y;
+  widget.actual_logical.w = width;
+  widget.actual_logical.h = height;
   array_append(toPage->container, widget);
 }
 
 void pleaseAddWidgetToWidget(TESTO_Widget* toWidget, TESTO_Widget widget, int x,
                              int y, int width, int height) {
-  widget.rendered.x = x;
-  widget.rendered.y = y;
-  widget.rendered.w = width;
-  widget.rendered.h = height;
+  widget.actual_rendered.x = x;
+  widget.actual_rendered.y = y;
+  widget.actual_rendered.w = width;
+  widget.actual_rendered.h = height;
   array_append(toWidget->container, widget);
 }
 
 void pleaseAddWidgetToWidgetR(TESTO_Widget* toWidget, TESTO_Widget widget,
                               double x, double y, double width, double height) {
-  widget.logical.x = x;
-  widget.logical.y = y;
-  widget.logical.w = width;
-  widget.logical.h = height;
+  widget.actual_logical.x = x;
+  widget.actual_logical.y = y;
+  widget.actual_logical.w = width;
+  widget.actual_logical.h = height;
   array_append(toWidget->container, widget);
 }
 
 void pleaseAddAreaToWidgetR(TESTO_Widget* toWidget, TESTO_Area area, double x,
                             double y, double width, double height) {
-  area.logical.x = x;
-  area.logical.y = y;
-  area.logical.w = width;
-  area.logical.h = height;
+  area.actual_logical.x = x;
+  area.actual_logical.y = y;
+  area.actual_logical.w = width;
+  area.actual_logical.h = height;
   if (toWidget->area_container != NULL)
     array_append(toWidget->area_container, area);
   else {
@@ -257,6 +257,7 @@ TESTO_Struct createTESTO(char* window_title, int window_width,
   if (!appToReturn.fonts) {
     fprintf(stderr, "Error creating TESTO, error with fonts\n");
   }
+	printf("TESTO created\n");
 
   return appToReturn;
 }

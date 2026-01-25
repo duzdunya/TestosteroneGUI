@@ -1,34 +1,25 @@
 #include "testo.h"
 
-#include <SDL2/SDL_ttf.h>
-
 _Bool runTESTO(TESTO_Struct* app) {
   printf("TestosteroneGUI has started!\n");
 
-  // Setting viewport
-  //  SDL_Rect viewport_rect = {.x=0, .y=0, .w=100, .h=100};
-  //  SDL_RenderSetViewport(app->renderer, &viewport_rect);
-
-  SDL_GetWindowSize(app->window, &app->window_w, &app->window_h);
-
-  doWidgetCalculations(app);  // checked
-	
   while (app->running) {
     app->pastTick = SDL_GetTicks64();
     SDL_SetRenderDrawColor(app->renderer, 255, 255, 255, 255);
     SDL_RenderClear(app->renderer);
-    // handle events
-    if (app->check_calc) {
-      doWidgetCalculations(app);
-      app->check_calc = 0;
-    }
 
     while (SDL_PollEvent(&app->event) != 0) {
       handleEvents(app);  // checked
     }
-    doWidgetAnimationCalculations(app);  // checked
 
-    renderCurrentPage(app);
+    for (int i = 0; i < array_length(app->pages[app->current_page].container);
+         i++) {
+      doWidgetCalculation(&app->pages[app->current_page].container[i]);
+      renderWidget(app, &app->pages[app->current_page], &app->pages[app->current_page].container[i]);
+    }
+
+
+    SDL_RenderPresent(app->renderer);
 
     if (SDL_GetTicks64() - app->pastTick < APP_FRAME_TICKS) {
       SDL_Delay(APP_FRAME_TICKS);
@@ -57,7 +48,7 @@ _Bool _clearTESTO_widgets(TESTO_Struct* app) {
       }
     }
     free(array_header(app->pages[i].container));
-    printf("Level %d freed\n", i);
+    printf("Page %d freed\n", i);
   }
   free(array_header(app->pages));
   printf("All pages cleared!\n");

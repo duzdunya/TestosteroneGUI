@@ -16,14 +16,12 @@ void renderWidget(TESTO_Struct* app, TESTO_Page* page, TESTO_Widget* widget) {
   SDL_RenderSetViewport(app->renderer, NULL);
   switch (widget->type) {
     case TESTO_FRAME:
-			//frame is just square !?
+      // frame is just square !?
       SDL_SetRenderDrawColor(app->renderer, widget->bg_color.r,
                              widget->bg_color.g, widget->bg_color.b,
                              widget->bg_color.a);
       SDL_RenderFillRect(app->renderer, &(widget->rendered));
 
-      break;
-    case TESTO_BUTTON:
       break;
     case TESTO_IMAGE_BUTTON:
       // TTF_SetFontSize(widget->font, widget->font_size);
@@ -50,37 +48,13 @@ void renderWidget(TESTO_Struct* app, TESTO_Page* page, TESTO_Widget* widget) {
       }
       break;
   }
-}
 
-_Bool renderCurrentPage(TESTO_Struct* app) {
-  // return if no pages
-  if (array_length(app->pages) <= 0) return 1;
-  // page
-  TESTO_Page* page = &(app->pages[app->current_page]);
-  // length of page
-  long int n = array_length(page->container);
-  // loop all widgets in current page
-  for (int i = 0; i < n; i++) {
-    // widget in page
-    TESTO_Widget* widget = &(page->container[i]);
-    // loop all areas if defined
-    if (widget->area_container != NULL) {
+if (widget->area_container != NULL) {
       long int a_n = array_length(widget->area_container);
       for (int j = 0; j < a_n; j++) {
         // render single area
         renderAppArea(app, page, &(widget->area_container[j]));
       }
     }
-    // endloop areas
-
-    // render single widget
-    renderWidget(app, page, widget);
-  }
-  // endloop widgets
-
-  // present screen
-  SDL_RenderPresent(app->renderer);
-
-  // return success
-  return 0;
 }
+
