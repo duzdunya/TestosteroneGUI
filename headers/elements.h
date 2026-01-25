@@ -9,20 +9,14 @@
 #include "colors.h"
 #include "dstructures.h"
 #include "easings.h"
+#include "animations.h"
 
 enum TESTO_WIDGET_TYPES {
-	TESTO_WIDGET,
+  TESTO_WIDGET,
   TESTO_FRAME,
   TESTO_TEXT,
   TESTO_BUTTON,
   TESTO_IMAGE_BUTTON,
-};
-
-enum TESTO_ANIMATION_TYPES {
-  TESTO_BASE_ANIMATION,
-  TESTO_POS_ANIMATION,
-  TESTO_SIZE_ANIMATION,
-  TESTO_OPACITY_ANIMATION,
 };
 
 // border
@@ -33,28 +27,6 @@ typedef struct {
   int left;
   SDL_Color color;
 } APP_Border;
-
-typedef struct {
-  double from_a;
-  double to_a;
-  double from_b;
-  double to_b;
-} APP_DoublePos;
-
-typedef struct {
-  char* name;
-  enum TESTO_ANIMATION_TYPES type;
-  Uint32 startTick;
-  double progress;
-  int duration;
-  int start_delay;
-  _Bool returnToStart;
-  _Bool active;
-  _Bool reverse;
-  _Bool ended;
-  double (*easing_function)(double);
-  APP_DoublePos base;
-} TESTO_Animation;
 
 typedef struct {
   SDL_Rect rendered;
@@ -164,52 +136,44 @@ typedef struct {
   int current_page;
 } TESTO_Struct;
 
-
 void default_callback(TESTO_Widget*);
 
 int appRandInt(int min, int max);
 TESTO_Page createPage(TESTO_Struct* app, char* name, SDL_FRect* viewport);
 
 TESTO_Widget _createBaseWidget(TESTO_Struct*);
-TESTO_Widget createFrameWidget(TESTO_Struct* app, char* name,
-                               _Bool responsive, _Bool relative,
-                               SDL_Color* bg_color);
-TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name,
-                                     char* text, _Bool responsive,
-                                     _Bool relative, char* image_path,
-                                     char* image_hover_path, TTF_Font* font,
-                                     int font_size, SDL_Color* text_color);
+TESTO_Widget createFrameWidget(TESTO_Struct* app, char* name, _Bool responsive,
+                               _Bool relative, SDL_Color* bg_color);
+TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
+                                     _Bool responsive, _Bool relative,
+                                     char* image_path, char* image_hover_path,
+                                     TTF_Font* font, int font_size,
+                                     SDL_Color* text_color);
 
-TESTO_Area createArea(TESTO_Struct*app, int image_index, int hover_image_index);
+TESTO_Area createArea(TESTO_Struct* app, int image_index,
+                      int hover_image_index);
 
-TESTO_Animation createPositionAnimation(TESTO_Struct* app, char* name,
-                                      int duration, int start_delay,
-                                      _Bool returnToStart,
-                                      APP_DoublePos positions);
-TESTO_Animation createSizeAnimation(TESTO_Struct* app, char* name, int duration,
-                                  int start_delay, _Bool returnToStart,
-                                  APP_DoublePos sizes);
-TESTO_Animation createColorAnimation(TESTO_Struct* app, char* name, int duration, int start_delay, _Bool returnToStart, APP_DoublePos colors);
-
-// APP_Animation createSizeAnimation(APP_Structure *);
-
-void pleaseAddAnimationToWidget(TESTO_Widget* toWidget, TESTO_Animation* animation);
+void pleaseAddAnimationToWidget(TESTO_Widget* toWidget,
+                                TESTO_Animation* animation);
 void pleaseAddAnimationToArea(TESTO_Area* toArea, TESTO_Animation* animation);
 
 void pleaseAddPageToApp(TESTO_Struct* toApp, TESTO_Page page);
-void pleaseAddWidgetToPage(TESTO_Page* toPage, TESTO_Widget widget, int x, int y,
-                      int width, int height);
-void pleaseAddWidgetToPageR(TESTO_Page* toPage, TESTO_Widget widget, double x, double y,
-                       double width, double height);
-void pleaseAddWidgetToWidget(TESTO_Widget* toWidget, TESTO_Widget widget, int x, int y,
-                       int width, int height);
-void pleaseAddWidgetToWidgetR(TESTO_Widget* toWidget, TESTO_Widget widget, double x,
-                        double y, double width, double height);
+void pleaseAddWidgetToPage(TESTO_Page* toPage, TESTO_Widget widget, int x,
+                           int y, int width, int height);
+void pleaseAddWidgetToPageR(TESTO_Page* toPage, TESTO_Widget widget, double x,
+                            double y, double width, double height);
+void pleaseAddWidgetToWidget(TESTO_Widget* toWidget, TESTO_Widget widget, int x,
+                             int y, int width, int height);
+void pleaseAddWidgetToWidgetR(TESTO_Widget* toWidget, TESTO_Widget widget,
+                              double x, double y, double width, double height);
 
-void pleaseAddAreaToWidgetR(TESTO_Widget* toWidget, TESTO_Area area, double x, double y,
-                      double width, double height);
+void pleaseAddAreaToWidgetR(TESTO_Widget* toWidget, TESTO_Area area, double x,
+                            double y, double width, double height);
 
+void pleaseSetPage(TESTO_Struct* app, int page);
+void pleaseNextPage(TESTO_Struct*);
+void pleasePreviousPage(TESTO_Struct*);
 
 TESTO_Struct createTESTO(char* window_title, int window_width,
-                          int window_height);
+                         int window_height);
 #endif

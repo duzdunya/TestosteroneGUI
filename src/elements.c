@@ -81,8 +81,11 @@ TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
   widgetToReturn.relative = relative;
   widgetToReturn.image_path = image_path;
   widgetToReturn.hover_image_path = hover_image_path;
-  if (!font) widgetToReturn.font = app->fonts[0];
-  widgetToReturn.font_size = font_size;
+  if (font == NULL) widgetToReturn.font = app->fonts[0];
+  if (font_size == -1)
+    widgetToReturn.font_size = 32;
+  else
+    widgetToReturn.font_size = font_size;
   if (text_color) widgetToReturn.text_color = *text_color;
 
   if (image_path) {
@@ -149,46 +152,6 @@ TESTO_Area createArea(TESTO_Struct* app, int image_index,
   return areaToReturn;
 }
 
-TESTO_Animation createPositionAnimation(TESTO_Struct* app, char* name,
-                                        int duration, int start_delay,
-                                        _Bool returnToStart,
-                                        APP_DoublePos positions) {
-  TESTO_Animation animationToReturn = {.name = name,
-                                       .type = TESTO_POS_ANIMATION,
-                                       .active = 0,
-                                       .progress = 0,
-                                       .duration = duration,
-                                       .start_delay = start_delay,
-                                       .returnToStart = returnToStart,
-                                       .base = positions,
-                                       .reverse = 0,
-                                       .ended = 0,
-                                       .easing_function = easeInOutSine};
-  return animationToReturn;
-}
-
-TESTO_Animation createSizeAnimation(TESTO_Struct* app, char* name, int duration,
-                                    int start_delay, _Bool returnToStart,
-                                    APP_DoublePos sizes) {
-  TESTO_Animation animationToReturn = {.name = name,
-                                       .type = TESTO_SIZE_ANIMATION,
-                                       .active = 0,
-                                       .progress = 0,
-                                       .duration = duration,
-                                       .start_delay = start_delay,
-                                       .returnToStart = returnToStart,
-                                       .base = sizes,
-                                       .reverse = 0,
-                                       .ended = 0,
-                                       .easing_function = easeInOutSine};
-  return animationToReturn;
-}
-
-TESTO_Animation createColorAnimation(TESTO_Struct* app, char* name,
-                                     int duration, int start_delay,
-                                     _Bool returnToStart,
-                                     APP_DoublePos colors) {}
-
 void pleaseAddAnimationToWidget(TESTO_Widget* toWidget,
                                 TESTO_Animation* animation) {
   array_append(toWidget->animations, *animation);
@@ -253,6 +216,21 @@ void pleaseAddAreaToWidgetR(TESTO_Widget* toWidget, TESTO_Area area, double x,
   }
 }
 
+void pleaseSetPage(TESTO_Struct* app, int page){
+	if (array_length(app->pages) >= page)
+	app->current_page = page;
+}
+
+void pleaseNextPage(TESTO_Struct* app) {
+	if (array_length(app->pages) >= (app->current_page+1)) app->current_page += 1;
+	printf("Changed to %d\n",app->current_page);
+}
+
+void pleasePreviousPage(TESTO_Struct* app){
+	if (array_length(app->pages) >= (app->current_page-1)) app->current_page -= 1;
+	printf("Changed to %d\n",app->current_page);
+}
+
 TESTO_Struct createTESTO(char* window_title, int window_width,
                          int window_height) {
   Allocator* a = malloc(sizeof(Allocator));
@@ -269,13 +247,6 @@ TESTO_Struct createTESTO(char* window_title, int window_width,
                               .title = window_title};
 
   appToReturn.pages = array(TESTO_Page, a);
-  if (!appToReturn.pages) {
-    fprintf(stderr, "Error creating TESTO, error with pages\n");
-  } else {
-    TESTO_Page start_page = createPage(&appToReturn, "Start Page", NULL);
-    pleaseAddPageToApp(&appToReturn, start_page);
-    appToReturn.current_page = 0;
-  }
 
   appToReturn.images = array(SDL_Texture*, a);
   if (!appToReturn.images) {
