@@ -16,7 +16,7 @@ void continueAnimation(TESTO_Animation* animation) { animation->active = 1; }
 
 
 // ANIMATION CREATION SECTION
-TESTO_Animaton _createBaseAnimation(int duration, int start_delay,
+TESTO_Animation _createBaseAnimation(int duration, int start_delay,
                                     _Bool reverse,
                                     double (*easing_func)(double)) {
   if (easing_func == NULL) easing_func = easeInOutSine;
@@ -38,7 +38,7 @@ TESTO_Animaton _createBaseAnimation(int duration, int start_delay,
 // DOUBLE POSITION ANIMATION
 TESTO_Animation createPositionAnimation(
     double alpha_x, double alpha_y, int duration, int start_delay,
-    _Bool reverse double (*easing_func)(double)) {
+    _Bool reverse, double (*easing_func)(double)) {
   TESTO_Animation animationToReturn =
       _createBaseAnimation(duration, start_delay, reverse, easing_func);
   // DOUBLE M
@@ -53,7 +53,7 @@ TESTO_Animation createPositionAnimation(
 // INTEGER POSITION ANIMATION
 TESTO_Animation createPositionAnimationInt(
     int alpha_x, int alpha_y, int duration, int start_delay,
-    _Bool reverse double (*easing_func)(double)) {
+    _Bool reverse, double (*easing_func)(double)) {
   TESTO_Animation animationToReturn =
       _createBaseAnimation(duration, start_delay, reverse, easing_func);
   // INTEGER M
@@ -68,7 +68,7 @@ TESTO_Animation createPositionAnimationInt(
 // DOUBLE SIZE ANIMATION
 TESTO_Animation createSizeAnimation(
     double alpha_w, double alpha_h, int duration, int start_delay,
-    _Bool reverse double (*easing_func)(double)) {
+    _Bool reverse, double (*easing_func)(double)) {
   TESTO_Animation animationToReturn =
       _createBaseAnimation(duration, start_delay, reverse, easing_func);
   // DOUBLE M
@@ -83,11 +83,11 @@ TESTO_Animation createSizeAnimation(
 // INTEGER SIZE ANIMATION
 TESTO_Animation createSizeAnimationInt(
     int alpha_w, int alpha_h, int duration, int start_delay,
-    _Bool reverse double (*easing_func)(double)) {
+    _Bool reverse, double (*easing_func)(double)) {
   TESTO_Animation animationToReturn =
       _createBaseAnimation(duration, start_delay, reverse, easing_func);
   // INTEGER M
-  TESTO_DM IM_to_set = {alpha_w, alpha_h};
+  TESTO_IM IM_to_set = {alpha_w, alpha_h};
   TESTO_M M_to_set = {.im = IM_to_set};
   animationToReturn.type = TESTO_SIZE_ANIMATION;
   animationToReturn.base_type = TESTO_ALPHA_IM;
