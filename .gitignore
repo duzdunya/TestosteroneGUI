@@ -5,6 +5,7 @@ headers/run.h
 headers/levels.h
 headers/game_level.h
 run
+test
 *.ttf
 
 # Prerequisites
