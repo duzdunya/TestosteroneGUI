@@ -1,5 +1,7 @@
+src/run.c
 src/levels.c
 src/game_level.c
+headers/run.h
 headers/levels.h
 headers/game_level.h
 run
