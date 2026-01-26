@@ -10,12 +10,10 @@
 _Bool isIn(int cursorx, int cursory, int x, int y, int width, int height);
 
 void doPageCalculation(TESTO_Struct* app, TESTO_Page* page);
-void doWidgetHoverCalculation(TESTO_Widget* widget, int cursor_x,
-                              int cursor_y);
-void doWidgetClickCalculation(TESTO_Widget* widget, int cursor_x,
-                              int cursor_y);
-void doWidgetAnimationCalculation(TESTO_Widget* widget,
-                                  TESTO_Animation* animation);
+void doWidgetHoverCalculation(TESTO_Widget* widget, int cursor_x, int cursor_y);
+void doWidgetClickCalculation(TESTO_Widget* widget, int cursor_x, int cursor_y);
+_Bool doWidgetAnimationCalculation(TESTO_Widget* widget,
+                                   TESTO_Animation* animation);
 void doWidgetCalculation(TESTO_Widget* widget);
 
 #endif

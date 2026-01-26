@@ -40,7 +40,7 @@ void doWidgetClickCalculation(TESTO_Widget* widget, int cursor_x,
   }
 }
 
-void doWidgetAnimationCalculation(TESTO_Widget* widget,
+_Bool doWidgetAnimationCalculation(TESTO_Widget* widget,
                                   TESTO_Animation* animation) {
   animation->progress = ((SDL_GetTicks64() - animation->startTick) /
                          (double)(animation->duration * 1000));
@@ -49,7 +49,7 @@ void doWidgetAnimationCalculation(TESTO_Widget* widget,
   } else {
     animation->active = 0;
     animation->ended = 1;
-    goto end;
+		return 0;
   }
   _Bool im_check = false;
 
@@ -108,7 +108,7 @@ void doWidgetAnimationCalculation(TESTO_Widget* widget,
       break;
   }
 
-end:
+	return 0;
 }
 
 void doWidgetCalculation(TESTO_Widget* widget) {

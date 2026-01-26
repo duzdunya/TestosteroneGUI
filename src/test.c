@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <pango-1.0/pango/pango.h>
+#include <stdlib.h>
 
-int int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	return EXIT_SUCCESS;
 }

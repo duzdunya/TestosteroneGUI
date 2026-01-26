@@ -47,14 +47,36 @@ void renderWidget(TESTO_Struct* app, TESTO_Page* page, TESTO_Widget* widget) {
                        &(widget->text_rendered));
       }
       break;
+    case TESTO_MEDIA_IMAGE_BUTTON:
+      if (widget->hovered) {
+        if (widget->hover_image_texture) {
+          SDL_RenderCopy(app->renderer, widget->hover_image_texture, NULL,
+                         &(widget->rendered));
+        } else {
+          SDL_RenderCopy(app->renderer, widget->image_texture, NULL,
+                         &(widget->rendered));
+        }
+      } else {
+        SDL_RenderCopy(app->renderer, widget->image_texture, NULL,
+                       &(widget->rendered));
+      }
+
+      if (widget->text_texture) {
+        // setting color not works for texts
+        //        SDL_SetRenderDrawColor(app->renderer, 255,
+        //                              255, 255,
+        //                             255);
+        SDL_RenderCopy(app->renderer, widget->text_texture, NULL,
+                       &(widget->text_rendered));
+      }
+      break;
   }
 
-if (widget->area_container != NULL) {
-      long int a_n = array_length(widget->area_container);
-      for (int j = 0; j < a_n; j++) {
-        // render single area
-        renderAppArea(app, page, &(widget->area_container[j]));
-      }
+  if (widget->area_container != NULL) {
+    long int a_n = array_length(widget->area_container);
+    for (int j = 0; j < a_n; j++) {
+      // render single area
+      renderAppArea(app, page, &(widget->area_container[j]));
     }
+  }
 }
-

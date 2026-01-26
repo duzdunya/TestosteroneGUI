@@ -67,9 +67,8 @@ TESTO_Widget createFrameWidget(TESTO_Struct* app, char* name, _Bool responsive,
 TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
                                      _Bool responsive, _Bool relative,
                                      char* image_path, char* hover_image_path,
-                                     TTF_Font* font, int font_size,
+                                     int media_font_index, int font_size,
                                      SDL_Color* text_color) {
-  int width, height, text_width, text_height;
   SDL_Surface *image_surface, *hover_image_surface, *text_surface;
   SDL_Texture *image_texture, *hover_image_texture, *text_texture;
 
@@ -81,13 +80,23 @@ TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
   widgetToReturn.relative = relative;
   widgetToReturn.image_path = image_path;
   widgetToReturn.hover_image_path = hover_image_path;
-  if (font == NULL) widgetToReturn.font = app->fonts[0];
+  // handle font
+  if (media_font_index >= 0 && media_font_index <= array_length(app->fonts))
+    widgetToReturn.font = app->fonts[media_font_index];
+  else
+    widgetToReturn.font = app->fonts[0];
+  // end handle
+
+  // handle font size
   if (font_size == -1)
     widgetToReturn.font_size = 32;
   else
     widgetToReturn.font_size = font_size;
+  // end handle font size
+
   if (text_color) widgetToReturn.text_color = *text_color;
 
+	// load image
   if (image_path) {
     image_surface = IMG_Load(image_path);
     if (!image_surface)
@@ -96,11 +105,11 @@ TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
       image_texture =
           SDL_CreateTextureFromSurface(app->renderer, image_surface);
       SDL_FreeSurface(image_surface);
-      SDL_QueryTexture(image_texture, NULL, NULL, &width, &height);
       widgetToReturn.image_texture = image_texture;
     }
   }
 
+	// load hover image
   if (hover_image_path) {
     hover_image_surface = IMG_Load(hover_image_path);
     if (!hover_image_surface)
@@ -125,6 +134,66 @@ TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
       widgetToReturn.text_texture = text_texture;
     }
   }
+  return widgetToReturn;
+}
+
+TESTO_Widget createMediaImageButtonWidget(TESTO_Struct* app, char* name,
+                                          char* text, _Bool responsive,
+                                          _Bool relative, int media_image_index,
+                                          int media_hover_index,
+                                          int media_font_index, int font_size,
+                                          SDL_Color* text_color) {
+  SDL_Surface* text_surface;
+  SDL_Texture* text_texture;
+
+  TESTO_Widget widgetToReturn = _createBaseWidget(app);
+  widgetToReturn.type = TESTO_MEDIA_IMAGE_BUTTON;
+  widgetToReturn.name = name;
+  widgetToReturn.text = text;
+  widgetToReturn.responsive = responsive;
+  widgetToReturn.relative = relative;
+  widgetToReturn.image_path = NULL;
+  widgetToReturn.hover_image_path = NULL;
+  if (media_font_index >= 0 && media_font_index <= array_length(app->fonts))
+    widgetToReturn.font = app->fonts[media_font_index];
+  else
+    fprintf(stderr,
+            "Error creating Widget, media_font_index is out of range\n");
+
+  // handle font size
+  if (font_size > 0)
+    widgetToReturn.font_size = font_size;
+  else
+    widgetToReturn.font_size = 32;
+
+  // handle font color
+  if (text_color) widgetToReturn.text_color = *text_color;
+
+  if (media_image_index >= 0 && media_image_index <= array_length(app->images))
+    widgetToReturn.image_texture = app->images[media_image_index];
+  else
+    fprintf(stderr,
+            "Error creating Widget, media_image_index is out of range\n");
+
+  if (media_hover_index >= 0 && media_hover_index <= array_length(app->images))
+    widgetToReturn.hover_image_texture = app->images[media_hover_index];
+  else
+    fprintf(stderr,
+            "Error creating Widget, media_hover_index is out of range\n");
+
+  // Load Text
+  if (text != NULL) {
+    text_surface = TTF_RenderText_Solid(
+        widgetToReturn.font, widgetToReturn.text, widgetToReturn.text_color);
+    if (!text_surface) {
+      fprintf(stderr, "Error loading text texture: %s!\n", text);
+    } else {
+      text_texture = SDL_CreateTextureFromSurface(app->renderer, text_surface);
+      SDL_FreeSurface(text_surface);
+      widgetToReturn.text_texture = text_texture;
+    }
+  }
+
   return widgetToReturn;
 }
 
@@ -216,19 +285,20 @@ void pleaseAddAreaToWidgetR(TESTO_Widget* toWidget, TESTO_Area area, double x,
   }
 }
 
-void pleaseSetPage(TESTO_Struct* app, int page){
-	if (array_length(app->pages) >= page)
-	app->current_page = page;
+void pleaseSetPage(TESTO_Struct* app, int page) {
+  if (array_length(app->pages) >= page) app->current_page = page;
 }
 
 void pleaseNextPage(TESTO_Struct* app) {
-	if (array_length(app->pages) >= (app->current_page+1)) app->current_page += 1;
-	printf("Changed to %d\n",app->current_page);
+  if (array_length(app->pages) >= (app->current_page + 1))
+    app->current_page += 1;
+  printf("Changed to %d\n", app->current_page);
 }
 
-void pleasePreviousPage(TESTO_Struct* app){
-	if (array_length(app->pages) >= (app->current_page-1)) app->current_page -= 1;
-	printf("Changed to %d\n",app->current_page);
+void pleasePreviousPage(TESTO_Struct* app) {
+  if (array_length(app->pages) >= (app->current_page - 1))
+    app->current_page -= 1;
+  printf("Changed to %d\n", app->current_page);
 }
 
 TESTO_Struct createTESTO(char* window_title, int window_width,
@@ -257,7 +327,7 @@ TESTO_Struct createTESTO(char* window_title, int window_width,
   if (!appToReturn.fonts) {
     fprintf(stderr, "Error creating TESTO, error with fonts\n");
   }
-	printf("TESTO created\n");
+  printf("TESTO created\n");
 
   return appToReturn;
 }

@@ -9,8 +9,9 @@ int pleaseAddFont(TESTO_Struct* app, char* font_path) {
     return -1;
   } else {
     array_append(app->fonts, loadedFont);
+    printf("Font loaded %s\n", font_path);
     // return index of texture
-    return array_length(app->fonts);
+    return array_length(app->fonts)-1;
   }
 }
 // returns index of added image
@@ -22,22 +23,23 @@ int pleaseAddImage(TESTO_Struct* app, char* image_path) {
     return -1;
   } else {
     array_append(app->images, loadedImg);
+    printf("Image loaded %s\n", image_path);
     // return index of texture
-    return array_length(app->images);
+    return array_length(app->images)-1;
   }
 }
 
 // Initialize the app
 _Bool initTESTO(TESTO_Struct* app) {
-	//init SDL
+  // init SDL
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "Error initializing SDL %s\n", SDL_GetError());
     return 1;
   }
 
   // create sdl window
-  app->window = SDL_CreateWindow(app->title, 0, 0, app->width,
-                                 app->height, SDL_WINDOW_RESIZABLE);
+  app->window = SDL_CreateWindow(app->title, 0, 0, app->width, app->height,
+                                 SDL_WINDOW_RESIZABLE);
   if (app->window == NULL) {
     fprintf(stderr, "Error initializing window %s\n", SDL_GetError());
     return 1;
@@ -61,10 +63,10 @@ _Bool initTESTO(TESTO_Struct* app) {
   if (TTF_Init() != 0) {
     fprintf(stderr, "Error initializing TTF %s\n", TTF_GetError());
   } else {
-		TTF_Font* fontToAdd = TTF_OpenFont("Jersey15-Regular.ttf",32);
-		array_append(app->fonts, fontToAdd);
-      }
+    TTF_Font* fontToAdd = TTF_OpenFont("Jersey15-Regular.ttf", 32);
+    array_append(app->fonts, fontToAdd);
+  }
 
-   printf("TESTO successfully initialized\n");
+  printf("TESTO successfully initialized\n");
   return 0;
 }

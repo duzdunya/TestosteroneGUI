@@ -3,7 +3,7 @@
 _Bool runTESTO(TESTO_Struct* app) {
   printf("TestosteroneGUI has started!\n");
 
-  while (app->running) {
+  while (app->running != 0) {
     app->pastTick = SDL_GetTicks64();
     SDL_SetRenderDrawColor(app->renderer, 255, 255, 255, 255);
     SDL_RenderClear(app->renderer);
@@ -15,9 +15,9 @@ _Bool runTESTO(TESTO_Struct* app) {
     for (int i = 0; i < array_length(app->pages[app->current_page].container);
          i++) {
       doWidgetCalculation(&app->pages[app->current_page].container[i]);
-      renderWidget(app, &app->pages[app->current_page], &app->pages[app->current_page].container[i]);
+      renderWidget(app, &app->pages[app->current_page],
+                   &app->pages[app->current_page].container[i]);
     }
-
 
     SDL_RenderPresent(app->renderer);
 
@@ -30,28 +30,42 @@ _Bool runTESTO(TESTO_Struct* app) {
 
 _Bool _clearTESTO_widgets(TESTO_Struct* app) {
   printf("\nClearing...\n");
+  // loop all pages
   for (int i = 0; i < array_length(app->pages); i++) {
+    // loop all widgets
     for (int j = 0; j < array_length(app->pages[i].container); j++) {
+      // destroy animations
       free(array_header(app->pages[i].container[j].animations));
 
+      // destroy areas if it has
       if (app->pages[i].container[j].area_container != NULL) {
         free(array_header(app->pages[i].container[j].area_container));
       }
-      if (app->pages[i].container[j].image_texture != NULL) {
-        SDL_DestroyTexture(app->pages[i].container[j].image_texture);
+
+      // destroy images if it is not media widget
+      if (app->pages[i].container[j].type == TESTO_IMAGE_BUTTON) {
+        // destroy image texture
+        if (app->pages[i].container[j].image_texture != NULL) {
+          SDL_DestroyTexture(app->pages[i].container[j].image_texture);
+        }
+        // destroy hover image texture
+        if (app->pages[i].container[j].hover_image_texture != NULL) {
+          SDL_DestroyTexture(app->pages[i].container[j].hover_image_texture);
+        }
       }
-      if (app->pages[i].container[j].hover_image_texture != NULL) {
-        SDL_DestroyTexture(app->pages[i].container[j].hover_image_texture);
-      }
+      // destroy text texture
       if (app->pages[i].container[j].text_texture != NULL) {
         SDL_DestroyTexture(app->pages[i].container[j].text_texture);
       }
     }
+    // endloop widgets
     free(array_header(app->pages[i].container));
     printf("Page %d freed\n", i);
   }
+  // endloop pages
   free(array_header(app->pages));
-  printf("All pages cleared!\n");
+  printf("All widgets cleared!\n");
+  return 0;
 }
 
 _Bool _clearTESTO_media(TESTO_Struct* app) {
@@ -65,6 +79,7 @@ _Bool _clearTESTO_media(TESTO_Struct* app) {
   }
   free(array_header(app->fonts));
   printf("Media was freed!\n");
+  return 0;
 }
 
 _Bool clearTESTO(TESTO_Struct* app) {
@@ -78,4 +93,5 @@ _Bool clearTESTO(TESTO_Struct* app) {
   FcFini();
   free(app->allocator);
   printf("Cleared!\n");
+  return 0;
 }

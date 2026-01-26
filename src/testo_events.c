@@ -7,6 +7,7 @@ void handleEvents(TESTO_Struct* app) {
       app->running = 0;
       break;
     case SDL_WINDOWEVENT:
+      //if (app->event.window.event == SDL_WINDOWEVENT_CLOSE) app->running = 0;
       SDL_GetWindowSize(app->window, &app->window_w, &app->window_h);
       break;
     case SDL_MOUSEMOTION:

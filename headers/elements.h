@@ -18,6 +18,7 @@ enum TESTO_WIDGET_TYPES {
   TESTO_TEXT,
   TESTO_BUTTON,
   TESTO_IMAGE_BUTTON,
+  TESTO_MEDIA_IMAGE_BUTTON,
 };
 
 // border
@@ -122,6 +123,7 @@ typedef struct {
   int width;
   int height;
   char* title;
+  int current_page;
   _Bool clicked;
   int cursor_x;
   int cursor_y;
@@ -134,11 +136,11 @@ typedef struct {
   int window_w;
   int window_h;
 
-  // arrays
+  // dynamic arrays
   SDL_Texture** images;
-  TTF_Font** fonts;   // array
-  TESTO_Page* pages;  // dynamic array
-  int current_page;
+  TTF_Font** fonts;
+  TESTO_Page* pages;
+
 } TESTO_Struct;
 
 void default_callback(TESTO_Widget*);
@@ -152,8 +154,15 @@ TESTO_Widget createFrameWidget(TESTO_Struct* app, char* name, _Bool responsive,
 TESTO_Widget createImageButtonWidget(TESTO_Struct* app, char* name, char* text,
                                      _Bool responsive, _Bool relative,
                                      char* image_path, char* image_hover_path,
-                                     TTF_Font* font, int font_size,
+                                     int media_font_index, int font_size,
                                      SDL_Color* text_color);
+
+TESTO_Widget createMediaImageButtonWidget(TESTO_Struct* app, char* name,
+                                          char* text, _Bool responsive,
+                                          _Bool relative, int media_image_index,
+                                          int media_hover_index,
+                                          int media_font_index, int font_size,
+                                          SDL_Color* text_color);
 
 TESTO_Area createArea(TESTO_Struct* app, int image_index,
                       int hover_image_index);
