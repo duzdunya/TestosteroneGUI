@@ -11,7 +11,7 @@ int pleaseAddFont(TESTO_Struct* app, char* font_path) {
     array_append(app->fonts, loadedFont);
     printf("Font loaded %s\n", font_path);
     // return index of texture
-    return array_length(app->fonts)-1;
+    return array_length(app->fonts) - 1;
   }
 }
 // returns index of added image
@@ -25,7 +25,7 @@ int pleaseAddImage(TESTO_Struct* app, char* image_path) {
     array_append(app->images, loadedImg);
     printf("Image loaded %s\n", image_path);
     // return index of texture
-    return array_length(app->images)-1;
+    return array_length(app->images) - 1;
   }
 }
 
@@ -63,8 +63,14 @@ _Bool initTESTO(TESTO_Struct* app) {
   if (TTF_Init() != 0) {
     fprintf(stderr, "Error initializing TTF %s\n", TTF_GetError());
   } else {
-    TTF_Font* fontToAdd = TTF_OpenFont("Jersey15-Regular.ttf", 32);
-    array_append(app->fonts, fontToAdd);
+    TTF_Font* fontToAdd = TTF_OpenFont("font.ttf", 32);
+    if (fontToAdd == NULL) {
+      fprintf(stderr,
+              "Font file named 'font.ttf' cannot be find! Please add one font "
+              "to the main directory.\n");
+    } else {
+      array_append(app->fonts, fontToAdd);
+    }
   }
 
   printf("TESTO successfully initialized\n");
