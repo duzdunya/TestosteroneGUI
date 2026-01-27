@@ -1,7 +1,6 @@
-src/run.c
 src/levels.c
 src/game_level.c
-headers/run.h
+src/myrun.c
 headers/levels.h
 headers/game_level.h
 run
