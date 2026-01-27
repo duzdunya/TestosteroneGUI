@@ -3,6 +3,11 @@
 _Bool runTESTO(TESTO_Struct* app) {
   printf("TestosteroneGUI has started!\n");
 
+  _Bool noPages;
+  if (array_length(app->pages) == 0) {
+    noPages = 1;
+  }
+
   while (app->running != 0) {
     app->pastTick = SDL_GetTicks64();
     SDL_SetRenderDrawColor(app->renderer, 255, 255, 255, 255);
@@ -12,11 +17,13 @@ _Bool runTESTO(TESTO_Struct* app) {
       handleEvents(app);  // checked
     }
 
-    for (int i = 0; i < array_length(app->pages[app->current_page].container);
-         i++) {
-      doWidgetCalculation(&app->pages[app->current_page].container[i]);
-      renderWidget(app, &app->pages[app->current_page],
-                   &app->pages[app->current_page].container[i]);
+    if (!noPages) {
+      for (int i = 0; i < array_length(app->pages[app->current_page].container);
+           i++) {
+        doWidgetCalculation(&app->pages[app->current_page].container[i]);
+        renderWidget(app, &app->pages[app->current_page],
+                     &app->pages[app->current_page].container[i]);
+      }
     }
 
     SDL_RenderPresent(app->renderer);
