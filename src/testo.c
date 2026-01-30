@@ -1,5 +1,7 @@
 #include "testo.h"
 
+#include <SDL2/SDL_render.h>
+
 _Bool runTESTO(TESTO_Struct* app) {
   printf("TestosteroneGUI has started!\n");
 
@@ -10,7 +12,7 @@ _Bool runTESTO(TESTO_Struct* app) {
 
   while (app->running != 0) {
     app->pastTick = SDL_GetTicks64();
-    SDL_SetRenderDrawColor(app->renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(app->renderer, 255, 0, 255, 255);
     SDL_RenderClear(app->renderer);
 
     while (SDL_PollEvent(&app->event) != 0) {
@@ -25,7 +27,6 @@ _Bool runTESTO(TESTO_Struct* app) {
                      &app->pages[app->current_page].container[i]);
       }
     }
-
     SDL_RenderPresent(app->renderer);
 
     if (SDL_GetTicks64() - app->pastTick < APP_FRAME_TICKS) {

@@ -21,6 +21,7 @@ void doPageCalculation(TESTO_Struct* app, TESTO_Page* page) {
 
 void doWidgetHoverCalculation(TESTO_Widget* widget, int cursor_x,
                               int cursor_y) {
+	TESTO_Struct* app = (TESTO_Struct*)(widget->app);
   // set hovered to true if hovered !?
   if (SDL_PointInRect(&(SDL_Point){cursor_x, cursor_y}, &(widget->rendered))) {
     widget->hovered = true;
@@ -31,10 +32,12 @@ void doWidgetHoverCalculation(TESTO_Widget* widget, int cursor_x,
 
 void doWidgetClickCalculation(TESTO_Widget* widget, int cursor_x,
                               int cursor_y) {
+	TESTO_Struct* app = (TESTO_Struct*)(widget->app);
   // set hovered to true if hovered !?
   if (SDL_PointInRect(&(SDL_Point){cursor_x, cursor_y}, &(widget->rendered))) {
     if (widget->on_click != NULL) widget->on_click(widget);
     widget->clicked = true;
+		app->clicked=false;
   } else {
     widget->clicked = false;
   }
