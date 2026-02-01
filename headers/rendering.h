@@ -1,8 +1,5 @@
 #ifndef RENDERING_H
 #define RENDERING_H
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
 #include "elements.h"
 #include "align.h"
 

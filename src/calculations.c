@@ -1,6 +1,13 @@
 #include "calculations.h"
 
-#include <SDL2/SDL_rect.h>
+
+int ratioInterpolate(double ratio, int fromNumber, int toNumber){
+return (int)(fromNumber + ratio*(toNumber-fromNumber));
+}
+
+double doubleInterpolate(double ratio, double fromNumber, double toNumber){
+return (double)(fromNumber + ratio*(toNumber-fromNumber));
+}
 
 _Bool isIn(int cursorx, int cursory, int x, int y, int width, int height) {
   if (cursorx > x && cursorx < (x + width)) {
