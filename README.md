@@ -42,6 +42,38 @@ int main(){
 ```
 
 ## Project Layout
+<ul>
+<li>
+    <b>animations.c</b> --> animation structures, create and change state of animations.
+</li>
+<li>
+        <b>calculations.c</b> --> calculations of elements, animations, widgets. How things look and interact on screen.
+</li>
+<li>
+        <b>colors.c</b> --> theming, color constants, color convertions. may be removed
+</li>
+<li>
+        <b>dstructures.c</b> --> data structures, dynamic arrays.
+</li>
+<li>
+        <b>easings.c</b> --> common easing functions 
+</li>
+<li>
+        <b>elements.c</b> --> base structures, create and edit widgets, pages and general app state, which named TESTO_Struct.
+</li>
+<li>
+        <b>initial.c</b> --> initialization, adding media. may be removed
+</li>
+<li>
+        <b>rendering.c</b> --> rendering widgets, pages etc. main idea is seperation between rendering and calculation
+</li>
+<li>
+        <b>testo.c</b> --> running and stopping (clearing media and deallocating memory)
+</li>
+<li>
+        <b>testo_events.c</b> --> event handler function
+</li>
+</ul>
 <p>This diagramm demonstrates the general layout of the project.</p>
 <img src="https://github.com/user-attachments/assets/0b4c5ef8-0648-43dd-aa8b-43bdcbc01fd2" width=500>
 
