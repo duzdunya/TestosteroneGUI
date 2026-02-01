@@ -3,9 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "align.h"
 #include "dstructures.h"
 #include "elements.h"
+
+
+int ratioInterpolate(double ratio, int fromNumber, int toNumber);
+double doubleInterpolate(double ratio, double fromNumber, double toNumber);
 
 _Bool isIn(int cursorx, int cursory, int x, int y, int width, int height);
 
