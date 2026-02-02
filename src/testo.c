@@ -12,7 +12,7 @@ _Bool runTESTO(TESTO_Struct* app) {
 
   while (app->running != 0) {
     app->pastTick = SDL_GetTicks64();
-    SDL_SetRenderDrawColor(app->renderer, 255, 0, 255, 255);
+    SDL_SetRenderDrawColor(app->renderer, 255, 255, 255, 255);
     SDL_RenderClear(app->renderer);
 
     while (SDL_PollEvent(&app->event) != 0) {
